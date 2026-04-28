@@ -23,14 +23,6 @@ const toDescription = component => {
     return description;
 };
 
-const meetupUrlFor = description => {
-    const matching = description.match(/(https:\/\/www.meetup.com\/[a-zA-Z0-9-]+\/events\/[0-9]+)/g);
-    if (matching && matching.length > 0) {
-        return matching[matching.length - 1];
-    }
-    return undefined;
-};
-
 const toEvent = (component, index) => {
     const description = toDescription(component);
     const startDate = component.getFirstPropertyValue('dtstart').toJSDate();
@@ -38,7 +30,7 @@ const toEvent = (component, index) => {
     const format = (d) => d.toString().padStart(2, '0');
     const formatHour = (d) => format(d.getHours()) + 'H' + format(d.getMinutes());
     const months = ['Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec'];
-    const url = meetupUrlFor(description);
+    const url = component.getFirstPropertyValue('url');
     return {
         id: component.getFirstPropertyValue('uid'),
         title: component.getFirstPropertyValue('summary'),
